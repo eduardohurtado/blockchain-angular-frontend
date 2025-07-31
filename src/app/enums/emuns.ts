@@ -17,3 +17,8 @@ export enum APP_LANGUAGES {
 export enum LOCAL_STORAGE_KEYS {
     LANGUAGE = 'lang'
 }
+
+export enum BLOCK_TYPE {
+    genesys = 'Genesys Block',
+    regular = 'Regular Block'
+}

@@ -16,6 +16,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { languageReducer } from './store/reducers/language.reducer';
 import { appReducer } from './store/reducers/app.reducer';
 import { environment } from 'src/environment/environment';
+import { LoadingOverlayComponent } from './components/loading-overlay/loading-overlay.component';
+import { blockchainReducer } from './store/reducers/blockchain.reducer';
 
 // Factory function to create the translation loader
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
@@ -29,6 +31,7 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
         NavBarComponent,
         FooterBarComponent,
         PageContainerComponent,
+        LoadingOverlayComponent,
         ToastNotificationComponent,
         RouterModule.forRoot(
             appRoutes,
@@ -43,7 +46,8 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
         }),
         StoreModule.forRoot({
             app: appReducer,
-            language: languageReducer
+            language: languageReducer,
+            blockchain: blockchainReducer
         }),
         StoreDevtoolsModule.instrument({
             maxAge: 25, // How many state changes to keep in history

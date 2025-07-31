@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CODE_LANGUAGES, APP_LANGUAGES, LOCAL_STORAGE_KEYS } from '../enums/emuns';
+import { LanguageStoreService } from '../store/services/languages.store.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-    constructor(private translate: TranslateService) {}
+    constructor(private translate: TranslateService, private languageStoreService: LanguageStoreService) {}
 
     setDefaultLanguage() {
-        const storedLangCodeOrDefault = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) || APP_CODE_LANGUAGES.ENGLISH;
+        const storedLangCodeOrDefault =
+            (localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) as APP_CODE_LANGUAGES) || APP_CODE_LANGUAGES.ENGLISH;
         this.translate.setDefaultLang(storedLangCodeOrDefault);
         this.translate.use(storedLangCodeOrDefault);
+        this.languageStoreService.setCurrentLanguage(storedLangCodeOrDefault);
     }
 
     setLanguageByCode(languageCode: APP_CODE_LANGUAGES) {
         this.translate.use(languageCode);
         localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, languageCode);
+        this.languageStoreService.setCurrentLanguage(languageCode);
     }
 
     getStoredLanguageCodeAndName(): { languageCode: APP_CODE_LANGUAGES; languageName: APP_LANGUAGES } {
