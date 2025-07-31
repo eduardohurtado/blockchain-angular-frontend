@@ -6,9 +6,10 @@ import { DeutschSvgFlagComponent } from '../languages-svg-flags/deutsch-svg-flag
 import { ItalianoSvgFlagComponent } from '../languages-svg-flags/italiano-svg-flag/italiano-svg-flag.component';
 import { ChineseSvgFlagComponent } from '../languages-svg-flags/chinese-svg-flag/chinese-svg-flag.component';
 import { EspanolSvgFlagComponent } from '../languages-svg-flags/espanol-svg-flag/espanol-svg-flag.component';
-import { APP_CODE_LANGUAGES, APP_LANGUAGES, LOCAL_STORAGE_KEYS } from 'src/app/enums/emuns';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { APP_CODE_LANGUAGES, APP_LANGUAGES } from 'src/app/enums/emuns';
+import { TranslateModule } from '@ngx-translate/core';
 import { ToastNotificationSignalService } from 'src/app/services/toast-notification.signal.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
     selector: 'app-nav-bar',
@@ -30,18 +31,15 @@ export class NavBarComponent implements OnInit {
     appLanguages = APP_LANGUAGES;
     isLanguageDropdownOpen = false;
     selectedLanguage = APP_LANGUAGES.ENGLISH;
-    selectedLanguageCode = APP_CODE_LANGUAGES.ENGLISH;
 
     constructor(
-        private translate: TranslateService,
         private router: Router,
-        private toastNotificationSignalService: ToastNotificationSignalService
+        private toastNotificationSignalService: ToastNotificationSignalService,
+        private languageService: LanguageService
     ) {}
 
     ngOnInit(): void {
-        const storedLang = localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE) || APP_CODE_LANGUAGES.ENGLISH;
-        const key = Object.entries(APP_CODE_LANGUAGES).find(([_, v]) => v === storedLang)?.[0];
-        this.selectedLanguage = APP_LANGUAGES[key as keyof typeof APP_LANGUAGES] || APP_LANGUAGES.ENGLISH;
+        this.selectedLanguage = this.languageService.getStoredLanguageCodeAndName().languageName;
     }
 
     toggleLanguageDropdown() {
@@ -52,10 +50,10 @@ export class NavBarComponent implements OnInit {
         this.selectedLanguage = language;
         const languageKey: string =
             Object.keys(APP_LANGUAGES).find((key) => APP_LANGUAGES[key as keyof typeof APP_LANGUAGES] === language) ||
-            'en';
-        const languageCode = APP_CODE_LANGUAGES[languageKey as keyof typeof APP_CODE_LANGUAGES] || 'en';
-        this.translate.use(languageCode);
-        localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, languageCode);
+            APP_CODE_LANGUAGES.ENGLISH;
+        const languageCode =
+            APP_CODE_LANGUAGES[languageKey as keyof typeof APP_CODE_LANGUAGES] || APP_CODE_LANGUAGES.ENGLISH;
+        this.languageService.setLanguageByCode(languageCode);
     }
 
     closeLanguageDropdown() {
