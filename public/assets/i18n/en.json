@@ -1,0 +1,17 @@
+{
+  "HOME": {
+    "TITLE": "Welcome!"
+  },
+  "BUTTON": {
+    "SUBMIT": "Submit"
+  },
+  "NAVBAR": {
+    "PAGES": {
+      "HOME": "Home",
+      "ABOUT": "About",
+      "SERVICES": "Services",
+      "CONTACT": "Contact"
+    }
+  },
+  "FOOTER": {}
+}
