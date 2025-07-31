@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { APP_CODE_LANGUAGES, LOCAL_STORAGE_KEYS } from './enums/emuns';
+import { LanguageService } from './services/language.service';
 
 @Component({
     selector: 'app-root',
@@ -9,10 +8,7 @@ import { APP_CODE_LANGUAGES, LOCAL_STORAGE_KEYS } from './enums/emuns';
     standalone: false
 })
 export class AppComponent {
-    constructor(private translate: TranslateService) {
-        const storedLang = localStorage.getItem('lang') || APP_CODE_LANGUAGES.ENGLISH;
-        this.translate.setDefaultLang(APP_CODE_LANGUAGES.ENGLISH);
-        this.translate.use(storedLang);
-        window.localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, storedLang);
+    constructor(private languageService: LanguageService) {
+        this.languageService.setDefaultLanguage();
     }
 }

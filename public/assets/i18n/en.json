@@ -19,7 +19,7 @@
   },
   "TOAST": {
     "LANGUAGE_CHANGED": "Language changed to: {{language}}",
-    "LANGUAGE_NOT_SUPPORTED": "Unsuported language: {{language}}"
+    "LANGUAGE_NOT_SUPPORTED": "Unsuported language"
   },
   "FOOTER": {
     "COPYRIGHT": "© {{year}} Blockchain Angular Frontend. All rights reserved."
