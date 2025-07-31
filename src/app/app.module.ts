@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { appRoutes } from './app.routes';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
+import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
 
 // Factory function to create the translation loader
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
@@ -21,6 +22,7 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
         BrowserModule,
         FormsModule,
         NavBarComponent,
+        FooterBarComponent,
         PageContainerComponent,
         ToastNotificationComponent,
         RouterModule.forRoot(

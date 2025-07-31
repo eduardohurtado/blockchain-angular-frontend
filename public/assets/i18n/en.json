@@ -1,6 +1,6 @@
 {
   "APPLICATION": {
-    "TITLE": "Blockchain Angular Frontend",
+    "TITLE": "BLOCKCHAIN",
     "DESCRIPTION": "A simple blockchain application built with Angular"
   },
   "HOME": {
@@ -21,5 +21,7 @@
     "LANGUAGE_CHANGED": "Language changed to: {{language}}",
     "LANGUAGE_NOT_SUPPORTED": "Unsuported language: {{language}}"
   },
-  "FOOTER": {}
+  "FOOTER": {
+    "COPYRIGHT": "© {{year}} Blockchain Angular Frontend. All rights reserved."
+  }
 }
