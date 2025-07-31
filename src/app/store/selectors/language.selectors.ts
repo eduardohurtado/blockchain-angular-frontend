@@ -6,8 +6,4 @@ const languageFeature = createFeature({
     reducer: languageReducer
 });
 
-export const {
-    // This is generated AUTOMATICALLY
-    selectLanguageState,
-    selectCurrentLanguage
-} = languageFeature;
+export const { name, reducer, selectLanguageState, selectCurrentLanguage } = languageFeature;

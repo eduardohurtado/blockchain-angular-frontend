@@ -1,10 +1,18 @@
 {
   "APPLICATION": {
     "TITLE": "BLOCKCHAIN",
-    "DESCRIPTION": "Una aplicación de blockchain simple construida con Angular"
+    "DESCRIPTION": "Una aplicación de blockchain simple construida con Angular",
+    "LOADING": "Cargando..."
   },
   "HOME": {
     "TITLE": "Bienvenido!"
+  },
+  "SERVICES": {
+    "TITLE": "Servicio de creación de Blockchain",
+    "DESCRIPTION": "Primero crea una nueva Blockchain con el siguiente botón, luego podrás interactuar con ella",
+    "ACTIONS": {
+      "CREATE_BUTTON": "Crear nueva Blockchain"
+    }
   },
   "BUTTON": {
     "SUBMIT": "Enviar"
