@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, Input, OnDestroy, OnInit } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ToastNotificationSignalService } from 'src/app/services/toast-notification.signal.service';
 
 @Component({
     selector: 'app-toast-notification',
-    imports: [CommonModule],
+    imports: [CommonModule, TranslateModule],
     templateUrl: './toast-notification.component.html',
     styleUrl: './toast-notification.component.css'
 })
@@ -14,19 +15,26 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
 
     hideToast = false;
     removedToast = false;
-    private timeouts: number[] = [];
+    timeouts: number[] = [];
+    destroyEffects: (() => void)[] = [];
 
     constructor(private toastNotificationSignalService: ToastNotificationSignalService) {
-        effect(() => {
-            if (this.toastNotificationSignalService.triggerStatus()) {
-                this.showToastNotification();
-            }
-        });
+        this.setupEffects();
     }
 
     ngOnInit(): void {
         this.hideToast = true;
         this.removedToast = true;
+    }
+
+    setupEffects() {
+        const toastEffect = effect(() => {
+            if (this.toastNotificationSignalService.triggerStatus()) {
+                this.showToastNotification();
+            }
+        });
+
+        this.destroyEffects.push(() => toastEffect.destroy());
     }
 
     showToastNotification() {
@@ -60,5 +68,6 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.clearAllTimeouts();
+        this.destroyEffects.forEach((destroy) => destroy());
     }
 }

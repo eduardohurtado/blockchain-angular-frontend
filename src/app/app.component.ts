@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { APP_CODE_LANGUAGES } from './enums/emuns';
+import { Component, effect, OnDestroy } from '@angular/core';
+import { LanguageService } from './services/language.service';
+import { AppStoreService } from './store/services/app.store.service';
 
 @Component({
     selector: 'app-root',
@@ -8,8 +8,24 @@ import { APP_CODE_LANGUAGES } from './enums/emuns';
     styleUrls: ['./app.component.css'],
     standalone: false
 })
-export class AppComponent {
-    constructor(private translate: TranslateService) {
-        this.translate.setDefaultLang(APP_CODE_LANGUAGES.ENGLISH); // Set default language
+export class AppComponent implements OnDestroy {
+    isLoading = false;
+    destroyEffects: (() => void)[] = [];
+
+    constructor(private languageService: LanguageService, private appStoreService: AppStoreService) {
+        this.languageService.setDefaultLanguage();
+        this.setupEffects();
+    }
+
+    setupEffects() {
+        const loadingEffect = effect(() => {
+            this.isLoading = this.appStoreService.getIsLoading();
+        });
+
+        this.destroyEffects.push(() => loadingEffect.destroy());
+    }
+
+    ngOnDestroy(): void {
+        this.destroyEffects.forEach((destroy) => destroy());
     }
 }

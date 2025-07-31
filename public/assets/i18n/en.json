@@ -1,6 +1,18 @@
 {
+  "APPLICATION": {
+    "TITLE": "BLOCKCHAIN",
+    "DESCRIPTION": "A simple blockchain application built with Angular",
+    "LOADING": "Loading..."
+  },
   "HOME": {
     "TITLE": "Welcome!"
+  },
+  "SERVICES": {
+    "TITLE": "Blockchain creation service",
+    "DESCRIPTION": "First create a new Blockchain with the next button, then you can interact with it",
+    "ACTIONS": {
+      "CREATE_BUTTON": "Create new Blockchain"
+    }
   },
   "BUTTON": {
     "SUBMIT": "Submit"
@@ -13,5 +25,11 @@
       "CONTACT": "Contact"
     }
   },
-  "FOOTER": {}
+  "TOAST": {
+    "LANGUAGE_CHANGED": "Language changed to: {{language}}",
+    "LANGUAGE_NOT_SUPPORTED": "Unsuported language"
+  },
+  "FOOTER": {
+    "COPYRIGHT": "© {{year}} Blockchain Angular Frontend. All rights reserved."
+  }
 }

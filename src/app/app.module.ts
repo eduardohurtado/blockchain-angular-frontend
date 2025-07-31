@@ -10,6 +10,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { appRoutes } from './app.routes';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
+import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { languageReducer } from './store/reducers/language.reducer';
+import { appReducer } from './store/reducers/app.reducer';
+import { environment } from 'src/environment/environment';
+import { LoadingOverlayComponent } from './components/loading-overlay/loading-overlay.component';
+import { blockchainReducer } from './store/reducers/blockchain.reducer';
 
 // Factory function to create the translation loader
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
@@ -21,7 +29,9 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
         BrowserModule,
         FormsModule,
         NavBarComponent,
+        FooterBarComponent,
         PageContainerComponent,
+        LoadingOverlayComponent,
         ToastNotificationComponent,
         RouterModule.forRoot(
             appRoutes,
@@ -33,6 +43,15 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
                 useFactory: httpLoaderFactory,
                 deps: [HttpClient]
             }
+        }),
+        StoreModule.forRoot({
+            app: appReducer,
+            language: languageReducer,
+            blockchain: blockchainReducer
+        }),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // How many state changes to keep in history
+            logOnly: environment.production // Restrict extension to log-only mode in prod
         })
     ],
     providers: [provideHttpClient(withInterceptorsFromDi())],
