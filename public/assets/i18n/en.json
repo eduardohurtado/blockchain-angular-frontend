@@ -1,4 +1,8 @@
 {
+  "APPLICATION": {
+    "TITLE": "Blockchain Angular Frontend",
+    "DESCRIPTION": "A simple blockchain application built with Angular"
+  },
   "HOME": {
     "TITLE": "Welcome!"
   },
@@ -12,6 +16,10 @@
       "SERVICES": "Services",
       "CONTACT": "Contact"
     }
+  },
+  "TOAST": {
+    "LANGUAGE_CHANGED": "Language changed to: {{language}}",
+    "LANGUAGE_NOT_SUPPORTED": "Unsuported language: {{language}}"
   },
   "FOOTER": {}
 }
