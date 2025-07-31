@@ -5,6 +5,9 @@ import { DeutschSvgFlagComponent } from '../languages-svg-flags/deutsch-svg-flag
 import { ItalianoSvgFlagComponent } from '../languages-svg-flags/italiano-svg-flag/italiano-svg-flag.component';
 import { ChineseSvgFlagComponent } from '../languages-svg-flags/chinese-svg-flag/chinese-svg-flag.component';
 import { EspanolSvgFlagComponent } from '../languages-svg-flags/espanol-svg-flag/espanol-svg-flag.component';
+import { APP_CODE_LANGUAGES, APP_LANGUAGES } from 'src/app/enums/emuns';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastNotificationSignalService } from 'src/app/services/toast-notification.signal.service';
 
 @Component({
     selector: 'app-nav-bar',
@@ -12,6 +15,7 @@ import { EspanolSvgFlagComponent } from '../languages-svg-flags/espanol-svg-flag
     styleUrl: './nav-bar.component.css',
     imports: [
         CommonModule,
+        TranslateModule,
         UsaSvgFlagComponent,
         DeutschSvgFlagComponent,
         ItalianoSvgFlagComponent,
@@ -22,28 +26,34 @@ import { EspanolSvgFlagComponent } from '../languages-svg-flags/espanol-svg-flag
 export class NavBarComponent {
     @ViewChild('language-dropdown-menu') dropdownRef!: ElementRef;
 
-    appLanguages = {
-        english: 'English (US)',
-        spanish: 'Español',
-        deutsch: 'Deutsch',
-        italiano: 'Italiano',
-        chinese: '中文 (繁體)'
-    };
+    appLanguages = APP_LANGUAGES;
     isLanguageDropdownOpen = false;
-    selectedLanguage = 'English (US)';
+    selectedLanguage = APP_LANGUAGES.ENGLISH;
 
-    constructor() {}
+    constructor(
+        private translate: TranslateService,
+        private toastNotificationSignalService: ToastNotificationSignalService
+    ) {}
 
     toggleLanguageDropdown() {
         this.isLanguageDropdownOpen = !this.isLanguageDropdownOpen;
     }
 
-    selectLanguage(language: string) {
+    selectLanguage(language: APP_LANGUAGES) {
         this.selectedLanguage = language;
+        const languageKey: string =
+            Object.keys(APP_LANGUAGES).find((key) => APP_LANGUAGES[key as keyof typeof APP_LANGUAGES] === language) ||
+            'en';
+        const languageCode = APP_CODE_LANGUAGES[languageKey as keyof typeof APP_CODE_LANGUAGES] || 'en';
+        this.translate.use(languageCode);
     }
 
     closeLanguageDropdown() {
         this.isLanguageDropdownOpen = false;
+    }
+
+    triggerToastNotificationSignalService() {
+        this.toastNotificationSignalService.triggerToastNotification();
     }
 
     @HostListener('document:click', ['$event'])
