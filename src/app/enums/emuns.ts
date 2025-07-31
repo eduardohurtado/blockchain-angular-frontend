@@ -13,3 +13,7 @@ export enum APP_LANGUAGES {
     ITALIANO = 'Italiano',
     CHINESE = '中文 (繁體)'
 }
+
+export enum LOCAL_STORAGE_KEYS {
+    LANGUAGE = 'lang'
+}
