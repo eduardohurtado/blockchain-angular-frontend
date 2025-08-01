@@ -12,3 +12,15 @@ export const loadBlockchain = createAction('[Blockchain] Load');
 export const loadBlockchainSuccess = createAction('[Blockchain] Load Success', props<{ data: IBlockchainState }>());
 
 export const loadBlockchainFailure = createAction('[Blockchain] Load Failure', props<{ error: any }>());
+
+export const mineNewBlock = createAction(
+    '[Blockchain] Mine New Block',
+    props<{ blockchain: IBlockchainState; body: string }>()
+);
+
+export const mineNewBlockSuccess = createAction(
+    '[Blockchain] Mine New Block Success',
+    props<{ data: IBlockchainState }>()
+);
+
+export const mineNewBlockFailure = createAction('[Blockchain] Mine New Block Failure', props<{ error: any }>());

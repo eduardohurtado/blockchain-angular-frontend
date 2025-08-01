@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { BlockchainService } from 'src/app/services/blockchain.service';
 import { IBlockModel } from 'src/app/store/models/block.models';
@@ -19,6 +19,7 @@ export class ServicesPageComponent implements OnDestroy {
     isWorkingMode = false;
     destroyEffects: (() => void)[] = [];
     blockchainChain: IBlockModel[] = [];
+    validatedBlockHashs: Set<string> = new Set();
     blockchainHeight: number = -1;
     inputValue: string = '';
 
@@ -46,15 +47,26 @@ export class ServicesPageComponent implements OnDestroy {
         this.blockchainService.loadBlockchain();
     }
 
-    saveNewBlock() {
-        console.log('Saving new block...', this.inputValue);
+    mineNewBlock(form: NgForm) {
+        if (form.invalid) {
+            alert('You must enter a value to mine a new block');
+            return;
+        }
 
-        // const newBlock: IBlockBuildModel = {
-        //     type: BLOCK_TYPE.regular,
-        //     body: 'New block data'
-        // };
+        const newBlockData: string = this.inputValue;
 
-        // this.blockchainService.saveNewBlock(newBlock);
+        this.blockchainService.mineNewBlock(
+            { chain: this.blockchainChain, height: this.blockchainHeight },
+            newBlockData
+        );
+    }
+
+    checkIfBlockIsVerified(blockHash: string) {
+        return this.validatedBlockHashs.has(blockHash);
+    }
+
+    validateBlock(block: IBlockModel) {
+        console.log('Block to verify:', block);
     }
 
     ngOnDestroy(): void {
