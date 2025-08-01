@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { IBlockchainState } from '../models/blockchain.models';
-import { setBlockchainState } from '../actions/blockchain.actions';
+import * as BlockchainActions from '../actions/blockchain.actions';
 
 export const initialBlockchainState: IBlockchainState = {
     chain: [],
@@ -9,9 +9,18 @@ export const initialBlockchainState: IBlockchainState = {
 
 export const blockchainReducer = createReducer(
     initialBlockchainState,
-    on(setBlockchainState, (state, { chain, height }) => ({
+    on(BlockchainActions.setBlockchainState, (state, { chain, height }) => ({
         ...state,
         chain,
         height
-    }))
+    })),
+    on(BlockchainActions.loadBlockchainSuccess, (state, { data }) => {
+        const { chain, height } = data;
+        return {
+            ...state,
+            chain,
+            height
+        };
+    }),
+    on(BlockchainActions.loadBlockchainFailure, (state, { error }) => ({ ...state, error }))
 );

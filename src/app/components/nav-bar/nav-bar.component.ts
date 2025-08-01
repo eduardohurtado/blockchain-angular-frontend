@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { UsaSvgFlagComponent } from '../languages-svg-flags/usa-svg-flag/usa-svg-flag.component';
 import { DeutschSvgFlagComponent } from '../languages-svg-flags/deutsch-svg-flag/deutsch-svg-flag.component';
 import { ItalianoSvgFlagComponent } from '../languages-svg-flags/italiano-svg-flag/italiano-svg-flag.component';
@@ -19,6 +19,7 @@ import { LanguageService } from 'src/app/services/language.service';
         CommonModule,
         TranslateModule,
         UsaSvgFlagComponent,
+        RouterModule,
         DeutschSvgFlagComponent,
         ItalianoSvgFlagComponent,
         ChineseSvgFlagComponent,
@@ -26,17 +27,15 @@ import { LanguageService } from 'src/app/services/language.service';
     ]
 })
 export class NavBarComponent implements OnInit {
+    router = inject(Router);
+    toastNotificationSignalService = inject(ToastNotificationSignalService);
+    languageService = inject(LanguageService);
+
     @ViewChild('language-dropdown-menu') dropdownRef!: ElementRef;
 
     appLanguages = APP_LANGUAGES;
     isLanguageDropdownOpen = false;
     selectedLanguage = APP_LANGUAGES.ENGLISH;
-
-    constructor(
-        private router: Router,
-        private toastNotificationSignalService: ToastNotificationSignalService,
-        private languageService: LanguageService
-    ) {}
 
     ngOnInit(): void {
         this.selectedLanguage = this.languageService.getStoredLanguageCodeAndName().languageName;

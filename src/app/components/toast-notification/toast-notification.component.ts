@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastNotificationSignalService } from 'src/app/services/toast-notification.signal.service';
 
@@ -10,6 +10,8 @@ import { ToastNotificationSignalService } from 'src/app/services/toast-notificat
     styleUrl: './toast-notification.component.css'
 })
 export class ToastNotificationComponent implements OnInit, OnDestroy {
+    toastNotificationSignalService = inject(ToastNotificationSignalService);
+
     @Input() showToast: boolean = false;
     @Input() toastMessage: string = '';
 
@@ -18,7 +20,7 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
     timeouts: number[] = [];
     destroyEffects: (() => void)[] = [];
 
-    constructor(private toastNotificationSignalService: ToastNotificationSignalService) {
+    constructor() {
         this.setupEffects();
     }
 

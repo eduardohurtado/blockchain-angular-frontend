@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CODE_LANGUAGES, APP_LANGUAGES, LOCAL_STORAGE_KEYS } from '../enums/emuns';
 import { LanguageStoreService } from '../store/services/languages.store.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-    constructor(private translate: TranslateService, private languageStoreService: LanguageStoreService) {}
+    translate = inject(TranslateService);
+    languageStoreService = inject(LanguageStoreService);
 
     setDefaultLanguage() {
         const storedLangCodeOrDefault =

@@ -8,7 +8,7 @@ import { PageContainerComponent } from './components/page-container/page-contain
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { appRoutes } from './app.routes';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
 import { FooterBarComponent } from './components/footer-bar/footer-bar.component';
 import { StoreModule } from '@ngrx/store';
@@ -18,6 +18,8 @@ import { appReducer } from './store/reducers/app.reducer';
 import { environment } from 'src/environment/environment';
 import { LoadingOverlayComponent } from './components/loading-overlay/loading-overlay.component';
 import { blockchainReducer } from './store/reducers/blockchain.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { BlockchainEffects } from './store/effects/blockchain.effects';
 
 // Factory function to create the translation loader
 const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: HttpClient) =>
@@ -52,7 +54,8 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
         StoreDevtoolsModule.instrument({
             maxAge: 25, // How many state changes to keep in history
             logOnly: environment.production // Restrict extension to log-only mode in prod
-        })
+        }),
+        EffectsModule.forRoot([BlockchainEffects])
     ],
     providers: [provideHttpClient(withInterceptorsFromDi())],
     bootstrap: [AppComponent]
