@@ -8,10 +8,16 @@
     "TITLE": "Bienvenido!"
   },
   "SERVICES": {
-    "TITLE": "Servicio de creación de Blockchain",
-    "DESCRIPTION": "Primero crea una nueva Blockchain con el siguiente botón, luego podrás interactuar con ella",
-    "ACTIONS": {
-      "CREATE_BUTTON": "Crear nueva Blockchain"
+    "CREATION_MODE": {
+      "TITLE": "Servicio de creación de Blockchain",
+      "DESCRIPTION": "Primero crea una nueva Blockchain con el siguiente botón, luego podrás interactuar con ella",
+      "ACTIONS": {
+        "CREATE_BUTTON": "Crear nueva Blockchain"
+      }
+    },
+    "WORKING_MODE": {
+      "TITLE": "Servicio de interacción con Blockchain",
+      "DESCRIPTION": "Ahora puedes interactuar con tu Blockchain"
     }
   },
   "BUTTON": {

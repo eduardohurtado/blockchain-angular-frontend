@@ -16,6 +16,13 @@ export class BlockchainStoreService {
         return this.store.selectSignal(selectHeight);
     }
 
+    getChainAndHeight(): Signal<{ chain: IBlockModel[]; height: number }> {
+        return this.store.selectSignal((state) => ({
+            chain: state.blockchain.chain,
+            height: state.blockchain.height
+        }));
+    }
+
     setBlockchainState(chain: IBlockModel[], height: number) {
         this.store.dispatch(setBlockchainState({ chain, height }));
     }

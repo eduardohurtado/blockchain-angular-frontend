@@ -10,6 +10,4 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class LoadingOverlayComponent {
     @Input() isLoading = false;
-
-    constructor() {}
 }
