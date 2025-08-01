@@ -4,9 +4,18 @@
     >
         {{ (isWorkingMode ? 'SERVICES.WORKING_MODE.TITLE' : 'SERVICES.CREATION_MODE.TITLE') | translate }}
     </h1>
-    <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-500">
+    <p
+        [ngClass]="isWorkingMode ? 'mb-2' : 'mb-5'"
+        class="text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-500"
+    >
         {{ (isWorkingMode ? 'SERVICES.WORKING_MODE.DESCRIPTION' : 'SERVICES.CREATION_MODE.DESCRIPTION') | translate }}
     </p>
+
+    <div *ngIf="isWorkingMode">
+        <p class="mb-3 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-500">
+            To validate the block integrity you must click in one of them and wait for the server verification
+        </p>
+    </div>
 
     <div *ngIf="!isWorkingMode">
         <a
@@ -33,7 +42,7 @@
     </div>
 
     <div *ngIf="isWorkingMode" class="w-[50vw]">
-        <form class="w-full" (ngSubmit)="saveNewBlock()">
+        <form class="w-full" #formRef="ngForm" (ngSubmit)="mineNewBlock(formRef)">
             <label for="save" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Save</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -52,30 +61,35 @@
                     </svg>
                 </div>
                 <input
-                    type="save"
+                    type="text"
                     id="save"
                     name="save"
                     [(ngModel)]="inputValue"
-                    [ngModelOptions]="{ standalone: true }"
+                    required
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Type some data to save..."
-                    required
+                    #inputField="ngModel"
                 />
                 <button
                     type="submit"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer"
                 >
-                    Save
+                    Mine new block
                 </button>
+            </div>
+            <div *ngIf="inputField.invalid && inputField.touched" class="mt-2 text-sm text-red-600">
+                Input is required.
             </div>
         </form>
     </div>
 
     <div *ngIf="isWorkingMode" class="mt-8 flex flex-wrap justify-evenly items-center h-full w-full p-4 rounded">
         <div *ngFor="let block of blockchainChain" class="flex justify-center mt-1 mb-1">
-            <div class="flex justify-center mt-1 mb-1">
+            <div class="flex justify-center mt-1 mb-1 cursor-pointer">
                 <div
-                    class="block max-w-[18rem] rounded-lg bg-red-800 text-white shadow-[0px_4px_6px_0px_#a2a3a3]"
+                    class="block max-w-[18rem] rounded-lg text-white shadow-[0px_4px_6px_0px_#a2a3a3]"
+                    [ngClass]="checkIfBlockIsVerified(block.hash) ? 'bg-green-800' : 'bg-red-800'"
+                    (click)="validateBlock(block)"
                 >
                     <div class="border-b-2 border-black/20 px-6 py-3 text-white">
                         Block Hash: ...{{ block.hash.slice(-10) }}
@@ -100,3 +114,5 @@
         </div>
     </div>
 </div>
+
+<div class="min-h-[50px]"></div>

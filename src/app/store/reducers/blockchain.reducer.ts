@@ -22,5 +22,20 @@ export const blockchainReducer = createReducer(
             height
         };
     }),
-    on(BlockchainActions.loadBlockchainFailure, (state, { error }) => ({ ...state, error }))
+    on(BlockchainActions.loadBlockchainFailure, (state, { error }) => {
+        console.error('Error on loadBlockchainFailure API call:', error);
+        return state;
+    }),
+    on(BlockchainActions.mineNewBlockSuccess, (state, { data }) => {
+        const { chain, height } = data;
+        return {
+            ...state,
+            chain,
+            height
+        };
+    }),
+    on(BlockchainActions.mineNewBlockFailure, (state, { error }) => {
+        console.error('Error on mineNewBlockFailure API call:', error);
+        return state;
+    })
 );

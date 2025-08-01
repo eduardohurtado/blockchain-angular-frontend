@@ -1,14 +1,11 @@
 import { BLOCK_TYPE } from 'src/app/enums/emuns';
 
-export interface IBlockModel extends IBlockBuildModel {
+export interface IBlockModel {
     hash: string;
     height: number;
+    type: BLOCK_TYPE.genesys | BLOCK_TYPE.regular;
     time: string;
     nonce: number;
-    prevBlockHash: string;
-}
-
-export interface IBlockBuildModel {
-    type: BLOCK_TYPE.genesys | BLOCK_TYPE.regular;
     body: string;
+    prevBlockHash: string;
 }

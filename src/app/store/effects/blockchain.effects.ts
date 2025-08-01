@@ -23,10 +23,27 @@ export class BlockchainEffects {
         )
     );
 
+    mineNewBlock$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(BlockchainActions.mineNewBlock),
+            mergeMap((action) =>
+                this.http
+                    .post<IBlockchainState>('http://localhost:8080/api/blockchain/mine', {
+                        blockchain: action.blockchain,
+                        body: action.body
+                    })
+                    .pipe(
+                        map((data) => BlockchainActions.mineNewBlockSuccess({ data })),
+                        catchError((error) => of(BlockchainActions.mineNewBlockFailure({ error })))
+                    )
+            )
+        )
+    );
+
     // Dispatch isLoading: true when request starts
     setLoadingOnLoad$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(BlockchainActions.loadBlockchain),
+            ofType(BlockchainActions.loadBlockchain, BlockchainActions.mineNewBlock),
             map(() => AppActions.setIsLoading({ isLoading: true }))
         )
     );
@@ -34,7 +51,12 @@ export class BlockchainEffects {
     // Dispatch isLoading: false when request ends (success or failure)
     unsetLoadingOnResponse$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(BlockchainActions.loadBlockchainSuccess, BlockchainActions.loadBlockchainFailure),
+            ofType(
+                BlockchainActions.loadBlockchainSuccess,
+                BlockchainActions.loadBlockchainFailure,
+                BlockchainActions.mineNewBlockSuccess,
+                BlockchainActions.mineNewBlockFailure
+            ),
             map(() => AppActions.setIsLoading({ isLoading: false }))
         )
     );
